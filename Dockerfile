@@ -5,4 +5,4 @@ COPY httpd.conf /etc/httpd/conf/httpd.conf
 COPY php.ini /etc/php.ini
 RUN yum remove epel-release -y && yum remove wget -y && yum remove all && yum clean all
 ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
-EXPOSE 80:80
+EXPOSE 80
