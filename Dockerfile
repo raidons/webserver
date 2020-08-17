@@ -1,11 +1,13 @@
 FROM centos:7
-RUN yum install -y  epel-release -y
-RUN yum install -y https://rpms.remirepo.net/enterprise/remi-release-7.rpm
-RUN yum install -y  yum-utils 
-RUN yum-config-manager --enable remi-php74 
-RUN yum -y update \
-    && yum install -y httpd wget sendmail php php-opcache php-gd php-pecl-interbase php-mbstring php-mysqlnd php-pdo php-soap php-xml openssl mod_ssl \
+RUN yum install -y  epel-release -y \
+    && yum install -y https://rpms.remirepo.net/enterprise/remi-release-7.rpm \
+    && yum install -y  yum-utils \
+    && yum-config-manager --enable remi-php74 \
+    && yum -y update \
+    && yum install -y httpd wget sendmail php php-opcache php-gd php-pecl-interbase php-mbstring php-mysqlnd php-pdo php-soap php-xml php-pecl-zip openssl mod_ssl php_posix intl git \
     && yum remove epel-release -y && yum remove wget -y && yum remove all && yum clean all
+RUN wget https://get.symfony.com/cli/installer -O - | bash && export PATH="$HOME/.symfony/bin:$PATH"
+RUN cd /tmp && curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 WORKDIR /var/www/html
 ENTRYPOINT ["/usr/sbin/httpd", "-D", "FOREGROUND"]
 EXPOSE 80
